@@ -6,6 +6,9 @@ win.title("Pong game")
 win.bgcolor("black")
 win.setup(width=800, height=600)
 win.tracer(0)
+#score
+score_a = 0
+score_b = 0
 
 # paddle_a
 paddle_a = turtle.Turtle()
@@ -35,6 +38,15 @@ ball.goto(0, 0)
 ball.dx = 0.2
 ball.dy = 0.2
 
+# pen
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
+pen.write(f"Player A: 0 Player B: 0",align="center",font=("Courier", 24, "normal"))
+
 
 def paddle_a_up():
     y = paddle_a.ycor()
@@ -57,9 +69,10 @@ def paddle_b_down():
     paddle_b.sety(y)
 
 win.listen()
+#paddle a nav
 win.onkeypress(paddle_a_up, "w")
 win.onkeypress(paddle_a_down, "s")
-
+# paddle b nav
 win.onkeypress(paddle_b_up, "Up")
 win.onkeypress(paddle_b_down, "Down")
 
@@ -84,10 +97,16 @@ while True:
     if ball.xcor() > 390:
         ball.goto(0,0)
         ball.dx *= -1
+        score_a += 1
+        pen.clear()
+        pen.write(f"Player A: {score_a} Player B: {score_b}", align="center", font=("Courier", 24, "normal"))
 
     if ball.xcor() < -390:
         ball.goto(0,0)
         ball.dx *= -1
+        score_b += 1
+        pen.clear()
+        pen.write(f"Player A: {score_a} Player B: {score_b}", align="center", font=("Courier", 24, "normal"))
 
     # paddle and ball collision
     if (340 < ball.xcor() < 350) and (paddle_b.ycor() - 50 < ball.ycor() < paddle_b.ycor() + 50):
